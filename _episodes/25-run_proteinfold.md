@@ -8,21 +8,22 @@ objectives:
 - Monitor resource allocation and utilisation.
 - Evaluate the cost of execution.
 keypoints:
-- Nextflow can be used to orcestrate AlphaFold2 executions.
-- We can monitor reource utilisation by connecting to a worker node.
+- Nextflow can be used to orchestrate AlphaFold2 executions.
+- We can monitor resource utilisation by connecting to a worker node.
 - Running AlphaFold2 in split mode can significantly reduce SU consumption.
 ---
 
 ## Prepare samplesheet
 
-- We have prepared a nextflow samplesheet containing our protein input in fasta format.
-- Each prediction must be given a unique `id` and an input file containing the target `sequence`
+We have prepared a nextflow samplesheet containing our protein input in fasta format. 
+
+Each prediction must be given a unique `id` and an input file containing the target `sequence`
 
 ```bash
 cat samplesheet.csv
 ```
 
-output:
+Output:
 ``` csv
 id,fasta
 sample0,fasta/PNK_0205.fasta
@@ -36,15 +37,21 @@ sample0,fasta/PNK_0205.fasta
 
 
 ~~~ bash
-nextflow run nf-core/proteinfold/ --input samplesheet.csv \
-    --outdir output/ --db /scratch/references/abacbs2025/databases/ \
-    --mode alphafold2 --use_gpu --alphafold2_mode "standard" \
-    -c abacbs_profile.config --slurm_account $PAWSEY_PROJECT -r 53a1008
+nextflow run nf-core/proteinfold/ \
+    --input samplesheet.csv \
+    --outdir output/ \
+    --db /scratch/references/abacbs2025/databases/ \
+    --mode alphafold2 \
+    --use_gpu \
+    --alphafold2_mode "standard" \
+    -c abacbs_profile.config \
+    --slurm_account $PAWSEY_PROJECT \
+    -r 53a1008
 ~~~
 {: .source}
 
 > ## Job monitoring
-> - In our second terminal we can confirm that our job is running with: 
+> In our second terminal we can confirm that our job is running with: 
 > 
 > ~~~
 > squeue --me
@@ -56,23 +63,25 @@ nextflow run nf-core/proteinfold/ --input samplesheet.csv \
 > 34776177  tlitfin pawsey1017-gpu  nf-NFCORE_PROT nid002166  R       None 08:15:36         20:15:36   11:36:58     1      75399    normal
 > ~~~
 > <br>
-> - Similarly, we can connect to the node that is executing the job to check the status (ie the node id under EXEC_HOST).
-> - Replace <node> with the id under EXEC_HOST (eg nid002166 from the example above).
+> Similarly, we can connect to the node that is executing the job to check the status (ie the node id under EXEC_HOST).
+> 
+> Replace <node> with the id under EXEC_HOST (eg nid002166 from the example above).
 >
 > ~~~
 > ssh <node>
 > ~~~
 > {: .source}
->
-> - Type `yes` when prompted and then enter your workshop account password at the password prompt.
-> - **Note: you can only connect to nodes where you have an active job running**
+> <br>
+> Type `yes` when prompted and then enter your workshop account password at the password prompt.
+> 
+> **Note: you can only connect to nodes where you have an active job running**
 >
 > ~~~
 > watch rocm-smi
 > ~~~
 > {: .source}
->
-> output:
+> <br>
+> Output:
 > ~~~
 > ========================================= ROCm System Management Interface =========================================
 > =================================================== Concise Info ===================================================
@@ -83,27 +92,30 @@ nextflow run nf-core/proteinfold/ --input samplesheet.csv \
 > ====================================================================================================================
 > =============================================== End of ROCm SMI Log ================================================
 > ~~~
-> - We can monitor GPU utilization in the last column.
+> <br>
+> We can monitor GPU utilization in the last column.
 {: .prereq}
 
 ### Job Accounting
-- After the workflow has completed, using your **local terminal**, download the `execution_timeline` HTML file located in the `output/pipeline_info/` directory.
 
-``` bash
-scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-workshop/exercises/exercise3/output/pipeline_info/execution_timeline*.html ./
-```
-- **Windows users** can download from WinSCP.
-- From your file browser, open the `execution_timeline` to visualise outputs in your web browser.
+After the workflow has completed, view the `execution_timeline` HTML file located in the `output/pipeline_info/` directory.
+
+You can find the file by navigating to the `exercises/exercise2/output/pipeline_info/` directory in the VS-code file browser on the left-hand panel
+
+Right-click the `execution_timeline` file and select `Preview`.
 
 > ## Execution timeline
-> - Here is an example timeline from a full AlphaFold2 run for this target protein.
-> - Your execution time will be greatly reduced by using **dummy** miniature databases and generating only a single AlphaFold2 model output.
+> 
+> Here is an example timeline from a full AlphaFold2 run for this target protein.
+> 
+> Your execution time will be greatly reduced by using **dummy** miniature databases and generating only a single AlphaFold2 model output.
 > {% raw %}
 > <img src="../assets/img/abacbs-af2-timeline.png" alt="af2tl" width="1200"/>
 > {% endraw %}
 {: .solution }
 
 > ## Service units
+> 
 > - All Pawsey users are allocated service units (SU) which are consumed by running jobs on Setonix.
 > - The SU cost of each job is determined based on the requested resources.
 > - We can use the Pawsey [calculator](https://pawseysc.github.io/su-calculator/) to estimate the SU cost of our workflow execution.
@@ -128,33 +140,43 @@ scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-wor
 <img src="../assets/img/abacbs-af2-split.png" alt="af2split" width="800"/>
 </p>
 
-- Recall that AlphaFold2 relies on generating an MSA by searching large sequence databases.
-- This search process does not invoke the GPU which means that it is wasteful to request a GPU node until the MSA has been generated.
-- We can split AlphaFold2 in to a part that requires the **CPU** and a part that requires the **GPU**.
-- Nextflow can send jobs to the appropriate resource.
+Recall that AlphaFold2 relies on generating an MSA by searching large sequence databases.
+
+This search process does not invoke the GPU which means that it is wasteful to request a GPU node until the MSA has been generated.
+
+We can split AlphaFold2 in to a part that requires the **CPU** and a part that requires the **GPU**.
+
+Nextflow can send jobs to the appropriate resource.
 
 Re-run proteinfold to predict the same protein but this time use AlphaFold2 in `"split_msa_prediction"` mode.
 
 ~~~ bash
-nextflow run nf-core/proteinfold --input samplesheet.csv \
-    --outdir output-split/ --db /scratch/references/abacbs2025/databases/ \
-    --mode alphafold2 --use_gpu --alphafold2_mode "split_msa_prediction" \
-    -c abacbs_profile.config --slurm_account $PAWSEY_PROJECT -r 53a1008
+nextflow run nf-core/proteinfold \
+    --input samplesheet.csv \
+    --outdir output-split/ \
+    --db /scratch/references/abacbs2025/databases/ \
+    --mode alphafold2 \
+    --use_gpu \
+    --alphafold2_mode "split_msa_prediction" \
+    -c abacbs_profile.config \
+    --slurm_account $PAWSEY_PROJECT \
+    -r 53a1008
 ~~~
 {: .source}
 
 ### Job Accounting
-- After the workflow has completed, using your **local terminal**, download the `execution_timeline` HTML file located in the `output-split/pipeline_info/` directory.
 
-``` bash
-scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-workshop/exercises/exercise3/output-split/pipeline_info/execution_timeline*.html ./
-```
-- **Windows users** can download from WinSCP.
-- From your file browser, open the `execution_timeline` to visualise outputs in your web browser.
+After the workflow has completed, view the `execution_timeline` HTML file located in the `output-split/pipeline_info/` directory.
+
+You can find the file by navigating to the `exercises/exercise2/output/pipeline_info/` directory in the VS-code file browser on the left-hand panel
+
+Right-click the `execution_timeline` file and select `Preview`.
 
 > ## Execution timeline
-> - Here is an example timeline from a full AlphaFold2 run using `"split_msa_prediction` for this target protein.
-> - Your execution time will be greatly reduced by using **dummy** miniature databases and generating only a single AlphaFold2 model output.
+> 
+> Here is an example timeline from a full AlphaFold2 run using `"split_msa_prediction"` for this target protein.
+> 
+> Your execution time will be greatly reduced by using **dummy** miniature databases and generating only a single AlphaFold2 model output.
 > {% raw %}
 > <img src="../assets/img/abacbs-af2split-timeline.png" alt="af2-splittl" width="1200"/>
 > {% endraw %}
@@ -163,8 +185,10 @@ scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-wor
 {: .solution }
 
 > ## Service units
-> - We can again use the Pawsey [calculator](https://pawseysc.github.io/su-calculator/) to estimate the service unit (SU) cost.
-> - A full scale execution was completed in 0.16 hours using a single GPU and 0.3 hours of CPU time.
+> 
+> We can again use the Pawsey [calculator](https://pawseysc.github.io/su-calculator/) to estimate the service unit (SU) cost.
+> 
+> A full scale execution was completed in 0.16 hours using a single GPU and 0.3 hours of CPU time.
 >
 > **CPU**
 > ~~~
@@ -183,7 +207,7 @@ scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-wor
 > GPU Proportion: 1 GCDs / 8 total GCDs = 0.1250
 > ~~~
 >
-> - Compare the SU cost of running all work on a GPU node compared with splitting the job to more efficiently use the appropriate resource.
+> Compare the SU cost of running all work on a GPU node compared with splitting the job to more efficiently use the appropriate resource.
 >
 > ~~~
 > Standard:               48   SUs

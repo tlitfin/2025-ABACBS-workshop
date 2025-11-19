@@ -13,22 +13,25 @@ keypoints:
 ---
 
 > ## Note
-> - Now that we have our high-confidence predicted structure, we can use it to search a large database of annotated structures.
-> - Similar annotated structures could provide a hypothesis about the likely function of our target protein.
+> 
+> Now that we have our high-confidence predicted structure, we can use it to search a large database of annotated structures.
+> 
+> Similar annotated structures could provide a hypothesis about the likely function of our target protein.
 {: .prereq}
 
 ## Download structure predictions
-- From your **local terminal**, download the `sample0_alphafold2.pdb` file located in the `output/alphafold2/standard/sample0/` directory.
 
-``` bash
-scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-workshop/exercises/exercise3/output/alphafold2/standard/sample0/sample0_alphafold2.pdb ./
-```
-- **Windows users** can download from WinSCP.
+Download the `sample0_alphafold2.pdb` file located in the `output/alphafold2/standard/sample0/` directory.
+
+You can find the file by navigating to the `output/alphafold2/standard/sample0/` directory in the VS-code file browser on the left-hand panel.
+
+Right-click the `sample0_alphafold2.pdb` file and select `Download`.
 
 ## Foldseek
 
-- The [Foldseek server](https://search.foldseek.com/search) is extremely fast and useful for identifying structural matches across a range of experimental and predicted structure databases.
-- Upload our predicted PDB structure to the foldseek server and search for similar structures.
+The [Foldseek server](https://search.foldseek.com/search) is extremely fast and useful for identifying structural matches across a range of experimental and predicted structure databases.
+
+Upload our predicted PDB structure to the foldseek server and search for similar structures.
 
 > ## Input form
 > {% raw %}
@@ -66,7 +69,7 @@ scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-wor
 > {% endraw %}
 {: .keypoints}
 
-- SPfast will take about ~7 minutes after uploading the query structure.
+SPfast will take about ~7 minutes after uploading the query structure.
 
 > ## Results
 > {% raw %}
@@ -79,19 +82,25 @@ scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-wor
 > | sample0_alphafold2          | Q8ZPP3     | 0.697 | 0.862          | IPR025292 | PF13327 | T3SS_LEE_assoc  | 1     |
 > {% endraw %}
 > 
-> - This collection of similar structures are annotated with PFAM clans (FliG, YscK, OrgA_MxiK, HrpB4, T3SS_LEE_assoc) which all relate to a Type III secretion system (T3SS) adaptor protein (SctK gene).
-> - This suggests a potential related function for our uncharacterized gene.
+> This collection of similar structures are annotated with PFAM clans (FliG, YscK, OrgA_MxiK, HrpB4, T3SS_LEE_assoc) which all relate to a Type III secretion system (T3SS) adaptor protein (SctK gene).
+> 
+> This suggests a potential related function for our uncharacterized gene.
 {: .solution }
 
 > ## Careful
-> - Structural similarity does **NOT** guarantee a related function. 
-> - Shared structural scaffolds can sometimes adopt highly divergent functions.
-> - We can look for complementary evidence to support structure-based annotations.
+> 
+> Structural similarity does **NOT** guarantee a related function. 
+> 
+> Shared structural scaffolds can sometimes adopt highly divergent functions.
+> 
+> We can look for complementary evidence to support structure-based annotations.
 {: .discussion}
 
 ## Synteny
-- T3SS genes are often found in operons.
-- Return to our original [assembly](https://www.ncbi.nlm.nih.gov/nuccore/LN879502.1) and look at the gene neighbors of our target locus (PNK_0205).
+
+T3SS genes are often found in operons.
+
+Return to our original [assembly](https://www.ncbi.nlm.nih.gov/nuccore/LN879502.1) and look at the gene neighbors of our target locus (PNK_0205).
 
 > ## Gene Neighborhood
 > ~~~
@@ -146,9 +155,11 @@ scp <username>@setonix.pawsey.org.au:/scratch/courses/<username>/2025-ABACBS-wor
 > ~~~
 {: .solution}
 
-- PNK_0205 is between the **SctL** and **SctJ** genes which are also components of the T3SS machinery.
-- In genomes where it is annotated, **SctK** is overwhelmingly found between **SctL** and **SctJ**.
-- The gene neighborhood of our uncharacterised gene is consistent with our protein structure based annotation.
+PNK_0205 is between the **SctL** and **SctJ** genes which are also components of the T3SS machinery.
+
+In genomes where it is annotated, **SctK** is overwhelmingly found between **SctL** and **SctJ**.
+
+The gene neighborhood of our uncharacterised gene is consistent with our protein structure based annotation.
 
 > ## Note:
 > Structure-based annotation is on the roadmap for another nf-core pipeline - [proteinannotator](https://nf-co.re/proteinannotator/dev/)
