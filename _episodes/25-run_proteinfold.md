@@ -15,7 +15,7 @@ keypoints:
 
 ## Prepare samplesheet
 
-We have prepared a nextflow samplesheet containing our protein input in fasta format. 
+We have prepared a Nextflow samplesheet containing our protein input in FASTA format. 
 
 Each prediction must be given a unique `id` and an input file containing the target `sequence`
 
@@ -29,12 +29,15 @@ id,fasta
 sample0,fasta/PNK_0205.fasta
 ```
 
-## Basic run
+## Standard run
+
+This is the structure of a standard proteinfold workflow execution:
 
 <p align="center">
 <img src="../assets/img/abacbs-af2-normal.png" alt="af2normal" width="600"/>
 </p>
 
+Execute the workflow using the script below:
 
 ~~~ bash
 nextflow run nf-core/proteinfold/ \
@@ -50,59 +53,54 @@ nextflow run nf-core/proteinfold/ \
 ~~~
 {: .source}
 
-> ## Job monitoring
-> In our second terminal we can confirm that our job is running with: 
-> 
-> ~~~
-> squeue --me
-> ~~~
-> {: .source}
-> <br>
-> ~~~
-> JOBID        USER ACCOUNT                   NAME EXEC_HOST ST     REASON START_TIME       END_TIME  TIME_LEFT NODES   PRIORITY       QOS
-> 34776177  tlitfin pawsey1017-gpu  nf-NFCORE_PROT nid002166  R       None 08:15:36         20:15:36   11:36:58     1      75399    normal
-> ~~~
-> <br>
-> Similarly, we can connect to the node that is executing the job to check the status (ie the node id under EXEC_HOST).
-> 
-> Replace <node> with the id under EXEC_HOST (eg nid002166 from the example above).
->
-> ~~~
-> ssh <node>
-> ~~~
-> {: .source}
-> <br>
-> Type `yes` when prompted and then enter your workshop account password at the password prompt.
-> 
-> **Note: you can only connect to nodes where you have an active job running**
->
-> ~~~
-> watch rocm-smi
-> ~~~
-> {: .source}
-> <br>
-> Output:
-> ~~~
-> ========================================= ROCm System Management Interface =========================================
-> =================================================== Concise Info ===================================================
-> Device  Node  IDs              Temp    Power  Partitions          SCLK    MCLK     Fan  Perf  PwrCap  VRAM%  GPU%
-> ^[3m              (DID,     GUID)  (Edge)  (Avg)  (Mem, Compute, ID)                                                   ^[0m
-> ====================================================================================================================
-> 0       11    0x7408,   49174  35.0°C  N/A    N/A, N/A, 0         800Mhz  1600Mhz  0%   auto  0.0W    74%    0%
-> ====================================================================================================================
-> =============================================== End of ROCm SMI Log ================================================
-> ~~~
-> <br>
-> We can monitor GPU utilization in the last column.
-{: .prereq}
+
+## Job monitoring
+
+1. In our second terminal we can confirm that our job is running with:
+
+    ```bash
+    squeue --me
+    ```
+    ~~~
+    JOBID        USER ACCOUNT                   NAME EXEC_HOST ST     REASON START_TIME       END_TIME  TIME_LEFT NODES   PRIORITY       QOS
+    34776177  tlitfin pawsey1017-gpu  nf-NFCORE_PROT nid002166  R       None 08:15:36         20:15:36   11:36:58     1      75399    normal
+    ~~~
+
+2. Similarly, we can connect to the node that is executing the job to check the status (ie the node id under EXEC_HOST).
+Replace <node> with the id under EXEC_HOST (eg nid002166 from the example above).
+
+    ```bash
+    ssh <node>
+    ```
+
+3. Type `yes` when prompted and then enter your workshop account password at the password prompt. **Note: you can only connect to nodes where you have an active job running**
+
+    ```bash
+    watch rocm-smi
+    ```
+
+4. We can monitor GPU utilization in the last column:
+
+    ~~~
+    ========================================= ROCm System Management Interface =========================================
+    =================================================== Concise Info ===================================================
+    Device  Node  IDs              Temp    Power  Partitions          SCLK    MCLK     Fan  Perf  PwrCap  VRAM%  GPU%
+    ^[3m              (DID,     GUID)  (Edge)  (Avg)  (Mem, Compute, ID)                                                   ^[0m
+    ====================================================================================================================
+    0       11    0x7408,   49174  35.0°C  N/A    N/A, N/A, 0         800Mhz  1600Mhz  0%   auto  0.0W    74%    0%
+    ====================================================================================================================
+    =============================================== End of ROCm SMI Log ================================================
+    ~~~
+
 
 ### Job Accounting
 
-After the workflow has completed, view the `execution_timeline` HTML file located in the `output/pipeline_info/` directory.
+1. After the workflow has completed, view the `execution_timeline` HTML file located in the `output/pipeline_info/` directory.
 
-You can find the file by navigating to the `exercises/exercise2/output/pipeline_info/` directory in the VS-code file browser on the left-hand panel
+2. You can find the file by navigating to the `exercises/exercise2/output/pipeline_info/` directory in the `VSCode` file browser in the left-hand panel
 
-Right-click the `execution_timeline` file and select `Preview`.
+3. Right-click the `execution_timeline` file and select `Preview`.
+
 
 > ## Execution timeline
 > 
@@ -136,41 +134,40 @@ Right-click the `execution_timeline` file and select `Preview`.
 
 ## Split MSA run
 
-<p align="center">
-<img src="../assets/img/abacbs-af2-split.png" alt="af2split" width="800"/>
-</p>
-
 Recall that AlphaFold2 relies on generating an MSA by searching large sequence databases.
 
 This search process does not invoke the GPU which means that it is wasteful to request a GPU node until the MSA has been generated.
 
-We can split AlphaFold2 in to a part that requires the **CPU** and a part that requires the **GPU**.
+We can split AlphaFold2 into a part that requires the **CPU** and a part that requires the **GPU**. Nextflow can send jobs to the appropriate resource.
 
-Nextflow can send jobs to the appropriate resource.
+<p align="center">
+<img src="../assets/img/abacbs-af2-split.png" alt="af2split" width="800"/>
+</p>
 
-Re-run proteinfold to predict the same protein but this time use AlphaFold2 in `"split_msa_prediction"` mode.
+Re-run proteinfold to predict the same protein but this time use AlphaFold2 in `"split_msa_prediction"` mode:
 
-~~~ bash
-nextflow run nf-core/proteinfold \
-    --input samplesheet.csv \
-    --outdir output-split/ \
-    --db /scratch/references/abacbs2025/databases/ \
-    --mode alphafold2 \
-    --use_gpu \
-    --alphafold2_mode "split_msa_prediction" \
-    -c abacbs_profile.config \
-    --slurm_account $PAWSEY_PROJECT \
-    -r 53a1008
-~~~
-{: .source}
+    ~~~ bash
+    nextflow run nf-core/proteinfold \
+        --input samplesheet.csv \
+        --outdir output-split/ \
+        --db /scratch/references/abacbs2025/databases/ \
+        --mode alphafold2 \
+        --use_gpu \
+        --alphafold2_mode "split_msa_prediction" \
+        -c abacbs_profile.config \
+        --slurm_account $PAWSEY_PROJECT \
+        -r 53a1008
+    ~~~
+
 
 ### Job Accounting
 
-After the workflow has completed, view the `execution_timeline` HTML file located in the `output-split/pipeline_info/` directory.
+1. After the workflow has completed, view the `execution_timeline` HTML file located in the `output-split/pipeline_info/` directory.
 
-You can find the file by navigating to the `exercises/exercise2/output/pipeline_info/` directory in the VS-code file browser on the left-hand panel
+2. You can find the file by navigating to the `exercises/exercise2/output/pipeline_info/` directory in the `VSCode` file browser in the left-hand panel
 
-Right-click the `execution_timeline` file and select `Preview`.
+3. Right-click the `execution_timeline` file and select `Preview`.
+
 
 > ## Execution timeline
 > 

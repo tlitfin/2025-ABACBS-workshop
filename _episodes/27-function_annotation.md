@@ -12,26 +12,34 @@ keypoints:
 - Structure-based annotation should be supported by complementary evidence.
 ---
 
-> ## Note
-> 
-> Now that we have our high-confidence predicted structure, we can use it to search a large database of annotated structures.
-> 
-> Similar annotated structures could provide a hypothesis about the likely function of our target protein.
-{: .prereq}
+## Database search with predicted structures
 
-## Download structure predictions
+Now that we have our high-confidence predicted structure, we can use it to search a large database of annotated structures.
+ 
+Similar annotated structures could provide a hypothesis about the likely function of our target protein.
 
-Download the `sample0_alphafold2.pdb` file located in the `output/alphafold2/standard/sample0/` directory.
 
-You can find the file by navigating to the `output/alphafold2/standard/sample0/` directory in the VS-code file browser on the left-hand panel.
+### Download structure predictions
 
-Right-click the `sample0_alphafold2.pdb` file and select `Download`.
+1. Download the `sample0_alphafold2.pdb` file located in the `output/alphafold2/standard/sample0/` directory. You can find the file by navigating to the `output/alphafold2/standard/sample0/` directory in the VS-code file browser on the left-hand panel.
 
-## Foldseek
+2. Right-click the `sample0_alphafold2.pdb` file and select `Download`.
+
+
+### Foldseek
 
 The [Foldseek server](https://search.foldseek.com/search) is extremely fast and useful for identifying structural matches across a range of experimental and predicted structure databases.
 
-Upload our predicted PDB structure to the foldseek server and search for similar structures.
+> ## Careful
+>
+> When deciding to send data to an external service, it is important to understand:
+> - How the data will be handled (e.g. transferred, processed, stored, secured), and
+> - If it is appropriate to submit the data to the service you are intending to use.
+>
+> {: .source}
+{: .callout}
+
+Upload our predicted PDB structure to the Foldseek server and search for similar structures. Ensure that the check-boxes for all databases are selected (see screenshot below).
 
 > ## Input form
 > {% raw %}
@@ -39,7 +47,6 @@ Upload our predicted PDB structure to the foldseek server and search for similar
 > <img src="../assets/img/abacbs-fseek.png" alt="foldseek" width="800"/>
 > </p>
 > {% endraw %}
-> - Ensure that the check-boxes for all databases are selected.
 {: .keypoints}
 
 > ## Results
@@ -60,6 +67,7 @@ Upload our predicted PDB structure to the foldseek server and search for similar
 1. Upload our predicted PDB structure by **leaving the input fields blank.** 
 2. Select **Run all** to execute search for annotated structures using SPfast.
 3. **Wait ~3 minutes** for the file upload prompt to appear under the 3rd cell and upload your predicted structure (`sample0_alphafold2.pdb`).
+4. SPfast will take about ~7 minutes after uploading the query structure.
 
 > ## Input form
 > {% raw %}
@@ -68,8 +76,6 @@ Upload our predicted PDB structure to the foldseek server and search for similar
 > </p>
 > {% endraw %}
 {: .keypoints}
-
-SPfast will take about ~7 minutes after uploading the query structure.
 
 > ## Results
 > {% raw %}

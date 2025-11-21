@@ -17,7 +17,11 @@ We have created training usernames and passwords for you. These are available in
 
 1. Click the blue bar in the bottom left corner of the window. A menu will appear up the top of the window.
 
-2. Click "Connect to Host..."
+    ![](../assets/img/vscode_ssh_menu.png)
+
+2. Click `Connect to Host...`
+
+    ![](../assets/img/vscode_add_host.png)
 
 3. In the following text box, type the following command:
 
@@ -25,21 +29,24 @@ We have created training usernames and passwords for you. These are available in
     <username>@setonix.pawsey.org.au
     ```
 
-4. Press the Enter key
+4. Press the `Enter` key
 
 5. In the next menu, you are prompted to select an SSH configuration file to update with the new settings. Select the one that is in your home directory.
 
 6. You will see a confirmation message that the new host was successfully added.
 
-7. Repeat steps 1 and 2 again, clicking on the blue SSH bar at the bottom left and selecting "Connect to Host..."
+    ![](../assets/img/vscode_confirm_add_host.png)
+
+7. Repeat steps 1 and 2 again, clicking on the blue SSH bar at the bottom left and selecting `Connect to Host...`
 
 8. Click on the remote that you just added: this will be called `setonix.pawsey.org.au`.
 
 9. A new window will open and a prompt will appear at the top of the window asking for your password. Enter it here and press Enter.
 
-10. A message will appear for a few moments saying "Setting up SSH Host... Initializing VS Code Server"
+10. A message will appear for a few moments saying `Setting up SSH Host... Initializing VS Code Server`.
 
 11. Once VS Code has been set up on the remote and you are successfully logged in, you will see the text `SSH: setonix.pawsey.org.au` in the blue SSH box in the bottom left corner of the window.
+
 
 ### Install neccessary extensions
 
