@@ -24,39 +24,30 @@ You should also be familiar with bash scripting. This is an introduction to Bash
 
 In this workshop, we will use the [Setonix HPC](https://pawsey.org.au/systems/setonix/) at [Pawsey Supercomputing Research Centre](https://pawsey.org.au/) (Perth, WA). 
 
-The requirements for this workshop are a personal computer with:
-
-- Visual Studio Code (`VSCode`)
-- A web browser
-
-Below, you will find instructions on how to set up VSCode and connect to Setonix.
-
 Each participant will be provided with their training account and password at the workshop.
 
 Before the workshop, you must have the following:
 
-1. `VSCode` installed
-2. The necessary VSCode extensions installed
+1. `VSCode` installed.
+2. The `Remote - SSH` VSCode extension installed.
 
+Below, you will find instructions on how to set up VSCode.
 
 ## Installing Visual Studio Code
 
 Visual Studio Code (`VSCode`) is a versatile code editor that we will use for the
-workshop. We will use `VSCode` to connect to the HPC, download and execute the Proteinfold workflow,
-monitor jobs on the HPC, and edit, view and download files.
+workshop. We will use `VSCode` to connect to the HPC, download and execute the Proteinfold workflow, monitor jobs on the HPC, and edit, view and download files.
 
 1. Download `VSCode` by following the [installation instructions](https://code.visualstudio.com/docs/setup/setup-overview) for your local Operating System.
 
 2. Open `VSCode` to confirm it was installed correctly.
 
 <p align="center">
-<img src="../assets/img/vscode_0.png" width="700"/>
+<img src="assets/img/vscode_0.png" width="700"/>
 </p>
 
 
-## Installing the VSCode extensions
-
-Specific `VSCode` extensions are required.
+## Installing the `Remote - SSH` VScode extension
 
 1. In the VSCode sidebar on the left, click on the extensions button (four blocks)
 
@@ -65,7 +56,7 @@ Specific `VSCode` extensions are required.
 **You have now configured VSCode for the workshop!**
 
 <p align="center">
-<img src="../assets/img/vscode_1.png" width="700"/>
+<img src="assets/img/vscode_1.png" width="700"/>
 </p>
 
 

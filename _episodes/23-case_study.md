@@ -52,13 +52,14 @@ In this session, we’ll walk through a case study from the genome of [Candidatu
 
 We’ll examine a gene annotated as a conserved hypothetical protein (locus tag PNK_0205) and explore how protein structure-based annotation can yield new functional hypotheses. 
 
+This case study is taken from:
+- Litfin,T. et al. (2025) Ultra-fast and highly sensitive protein structure alignment with segment-level representations and block-sparse optimization.
 
 > ## Strategy
-> - Predict the protein’s 3D structure.
-> - Search for similar annotated structures.
-> - Compare gene neighborhoods of our protein and the matched structure.
-> - Predict interaction partners based on known functional associations.
-> - Integrate all evidence to propose a functional hypothesis.
+> 1. Predict the 3D structure of the target protein as a monomer.
+> 2. Search for similar annotated structures.
+> 3. Compare gene neighborhoods of our protein and the matched structure.
+> 4. Predict the complex structure of potential interaction partners based on known functional associations.
 > 
 > {% raw %}
 > <p align="center">

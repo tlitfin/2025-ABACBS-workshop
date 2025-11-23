@@ -37,26 +37,29 @@ This is the structure of a standard proteinfold workflow execution:
 <img src="../assets/img/abacbs-af2-normal.png" alt="af2normal" width="600"/>
 </p>
 
-Execute the workflow using the script below:
+1. Execute the workflow using the script below:
 
-~~~ bash
-nextflow run nf-core/proteinfold/ \
-    --input samplesheet.csv \
-    --outdir output/ \
-    --db /scratch/references/abacbs2025/databases/ \
-    --mode alphafold2 \
-    --use_gpu \
-    --alphafold2_mode "standard" \
-    -c abacbs_profile.config \
-    --slurm_account $PAWSEY_PROJECT \
-    -r 53a1008
-~~~
-{: .source}
+    ~~~ bash
+    nextflow run nf-core/proteinfold/ \
+        --input samplesheet.csv \
+        --outdir output/ \
+        --db /scratch/references/abacbs2025/databases/ \
+        --mode alphafold2 \
+        --use_gpu \
+        --alphafold2_mode "standard" \
+        -c abacbs_profile.config \
+        --slurm_account $PAWSEY_PROJECT \
+        -r 53a1008
+    ~~~
 
 
 ## Job monitoring
 
-1. In our second terminal we can confirm that our job is running with:
+1. Open a new VScode terminal using the `+` in the top-right corner of the terminal panel.
+
+    ![](../assets/img/abacbs-new-terminal.png)
+
+2. In our second terminal we can confirm that our job is running with:
 
     ```bash
     squeue --me
@@ -66,20 +69,20 @@ nextflow run nf-core/proteinfold/ \
     34776177  tlitfin pawsey1017-gpu  nf-NFCORE_PROT nid002166  R       None 08:15:36         20:15:36   11:36:58     1      75399    normal
     ~~~
 
-2. Similarly, we can connect to the node that is executing the job to check the status (ie the node id under EXEC_HOST).
+3. Similarly, we can connect to the node that is executing the job to check the status (ie the node id under EXEC_HOST).
 Replace <node> with the id under EXEC_HOST (eg nid002166 from the example above).
 
     ```bash
     ssh <node>
     ```
 
-3. Type `yes` when prompted and then enter your workshop account password at the password prompt. **Note: you can only connect to nodes where you have an active job running**
+4. Type `yes` when prompted and then enter your workshop account password at the password prompt. **Note: you can only connect to nodes where you have an active job running**
 
     ```bash
     watch rocm-smi
     ```
 
-4. We can monitor GPU utilization in the last column:
+5. We can monitor GPU utilization in the last column:
 
     ~~~
     ========================================= ROCm System Management Interface =========================================
@@ -144,7 +147,7 @@ We can split AlphaFold2 into a part that requires the **CPU** and a part that re
 <img src="../assets/img/abacbs-af2-split.png" alt="af2split" width="800"/>
 </p>
 
-Re-run proteinfold to predict the same protein but this time use AlphaFold2 in `"split_msa_prediction"` mode:
+1. Re-run proteinfold to predict the same protein but this time use AlphaFold2 in `"split_msa_prediction"` mode:
 
     ~~~ bash
     nextflow run nf-core/proteinfold \

@@ -139,7 +139,7 @@ We will use a development branch (`commit: 53a1008`) to access some of the lates
 
 ## Setup environment
 
-The previous exercise didn’t use containers, but they are one of the most effective ways to manage software in workflow development, especially with Nextflow.
+Containers are one of the most effective ways to manage software in workflow development, especially with Nextflow.
 
 > ## **Background:** Why containers?
 >
@@ -210,10 +210,9 @@ If you execute a Nextflow workflow that requires a container that is not located
 - We can configure the workflow to use these non-standard images by defining their path in a custom Nextflow config.
 
 > ## Note
-> Normally AlphaFold2 runs 5 different models and picks the best result.
-> 
-> Today we are using a modified version of AlphaFold2 that only runs a single model to reduce execution time.
-{: .prereq}
+> - Normally AlphaFold2 runs 5 different models and picks the best result.
+> - Today we are using a modified version of AlphaFold2 (`alphafold2-single.sif`) that only runs a single model to reduce execution time.
+{: .discussion}
 
 Check the `abacbs_workshop.config` file to confirm that the workflow modules are configured to use non-standard images available on Setonix:
 

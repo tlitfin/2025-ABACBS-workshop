@@ -11,41 +11,43 @@ keypoints:
 - Logging on to Pawsey systems uses SSH (secure shell)
 ---
 
-### Connecting to the HPCs
+### Connecting to Setonix
 
 We have created training usernames and passwords for you. These are available in a GoogleSheet that can be accessed via a link on the PowerPoint slide. Go to that link and put your name next to one of the usernames to claim it for yourself. That will be your username and password for the whole workshop.
 
-1. Click the blue bar in the bottom left corner of the window. A menu will appear up the top of the window.
+1. Open VScode.
+
+2. Click the blue bar in the bottom left corner of the window. A menu will appear up the top of the window.
 
     ![](../assets/img/vscode_ssh_menu.png)
 
-2. Click `Connect to Host...`
+3. Click `Connect to Host...` and then `+ Add New SSH Host...`
 
     ![](../assets/img/vscode_add_host.png)
 
-3. In the following text box, type the following command:
+4. In the text box, type the following command using your `<username>` selected from the GoogleSheet:
 
     ```bash
     <username>@setonix.pawsey.org.au
     ```
 
-4. Press the `Enter` key
+5. Press the `Enter` key
 
-5. In the next menu, you are prompted to select an SSH configuration file to update with the new settings. Select the one that is in your home directory.
+6. In the next menu, you are prompted to select an SSH configuration file to update with the new settings. Select the default that is in your home directory (`~/.ssh/config`).
 
-6. You will see a confirmation message that the new host was successfully added.
+7. You will see a confirmation message that the new host was successfully added.
 
     ![](../assets/img/vscode_confirm_add_host.png)
 
-7. Repeat steps 1 and 2 again, clicking on the blue SSH bar at the bottom left and selecting `Connect to Host...`
+8. Repeat steps 1 and 2 again, clicking on the blue SSH bar at the bottom left and selecting `Connect to Host...`
 
-8. Click on the remote that you just added: this will be called `setonix.pawsey.org.au`.
+9. Click on the remote that you just added: this will be called `setonix.pawsey.org.au`.
 
-9. A new window will open and a prompt will appear at the top of the window asking for your password. Enter it here and press Enter.
+10. A new window will open and a prompt will appear at the top of the window asking for your password. Enter it here and press Enter.
 
-10. A message will appear for a few moments saying `Setting up SSH Host... Initializing VS Code Server`.
+11. A message will appear for a few moments saying `Setting up SSH Host... Initializing VS Code Server`.
 
-11. Once VS Code has been set up on the remote and you are successfully logged in, you will see the text `SSH: setonix.pawsey.org.au` in the blue SSH box in the bottom left corner of the window.
+12. Once VS Code has been set up on the remote and you are successfully logged in, you will see the text `SSH: setonix.pawsey.org.au` in the blue SSH box in the bottom left corner of the window.
 
 
 ### Install neccessary extensions
@@ -95,6 +97,8 @@ To save you some time typing, Pawsey has set up some shortcuts for all users. We
 5. In the same terminal, execute `pwd` to find the current working directory (eg `/scratch/courses/<username>/2025-ABACBS-workshop/exercises/`). 
 
 6. In the left-hand sidebar of VSCode, click on the "Explorer" tab (an icon that looks like two sheets of paper).
+
+    ![](../assets/img/abacbs-open-folder.png)
 
 7. Click on "Open Folder"
 

@@ -100,12 +100,15 @@ External resource: [EBI AlphaFold guide - pLDDT](https://www.ebi.ac.uk/training/
 
 ## Predicted aligned error (pAE)
 
-- When we **do** know the true structure of a protein, the "aligned error" is the distance between a predicted atom and it's true position after superimposing the 2 structures. 
-- When we **do not** know the true structure, we can predict what the hypothetical aligned error would be (pAE). 
-- Each row of the pAE matrix (i,j) represents the pAE of residues (j) assuming that the structures are superimposed based on residue (i). 
 - A low pAE is indicated by a dark green color and is often interpreted as high confidence about the relative positions of the 2 residues.
 - `pTM` is a score calculated from the best row of the pAE matrix and represents an overall quality score.
 - `ipTM` is the same score but only considering PAE between different chains.
+
+> ## **Background:** PAE
+> - When we **do** know the true structure of a protein, the "aligned error" is the distance between a predicted atom and it's true position after superimposing the 2 structures. 
+> - When we **do not** know the true structure, we can predict what the hypothetical aligned error would be (pAE). 
+> - Each row of the pAE matrix (i,j) represents the pAE of residues (j) assuming that the structures are superimposed based on residue (i). 
+{: .solution}
 
 External resources: 
 - [EBI AlphaFold guide - PAE](https://www.ebi.ac.uk/training/online/courses/alphafold/inputs-and-outputs/evaluating-alphafolds-predicted-structures-using-confidence-scores/pae-a-measure-of-global-confidence-in-alphafold-predictions/)

@@ -36,8 +36,8 @@ The [Foldseek server](https://search.foldseek.com/search) is extremely fast and 
 > - How the data will be handled (e.g. transferred, processed, stored, secured), and
 > - If it is appropriate to submit the data to the service you are intending to use.
 >
-> {: .source}
-{: .callout}
+> Do not send sensitive data to an external service without understanding potential risks.
+{: .discussion}
 
 Upload our predicted PDB structure to the Foldseek server and search for similar structures. Ensure that the check-boxes for all databases are selected (see screenshot below).
 
@@ -91,15 +91,12 @@ Upload our predicted PDB structure to the Foldseek server and search for similar
 > This collection of similar structures are annotated with PFAM clans (FliG, YscK, OrgA_MxiK, HrpB4, T3SS_LEE_assoc) which all relate to a Type III secretion system (T3SS) adaptor protein (SctK gene).
 > 
 > This suggests a potential related function for our uncharacterized gene.
-{: .solution }
+{: .solution}
 
 > ## Careful
-> 
-> Structural similarity does **NOT** guarantee a related function. 
-> 
-> Shared structural scaffolds can sometimes adopt highly divergent functions.
-> 
-> We can look for complementary evidence to support structure-based annotations.
+> - Structural similarity does **NOT** guarantee a related function. 
+> - Shared structural scaffolds can sometimes adopt highly divergent functions.
+> - We can look for complementary evidence to support structure-based annotations.
 {: .discussion}
 
 ## Synteny
