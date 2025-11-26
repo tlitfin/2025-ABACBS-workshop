@@ -52,6 +52,9 @@ This is the structure of a standard proteinfold workflow execution:
         -r 53a1008
     ~~~
 
+> ## Note
+> Make sure you have loaded the required modules and set the neccessary environment variables from the earlier episodes in this terminal.
+{: .discussion}
 
 ## Job monitoring
 
@@ -129,11 +132,11 @@ Replace <node> with the id under EXEC_HOST (eg nid002166 from the example above)
 > GPU Proportion: 1 GCDs / 8 total GCDs = 0.1250
 > ~~~
 > 
-> - A basic run of AlphaFold2 using the official implementation consumes 48 SUs on the Setonix system. 
 > - Compare this with the execution time for the demo run from this workshow using the miniature databases.
 >
 {: .solution}
 
+A basic run of AlphaFold2 for this target using the official implementation consumes 48 SUs on the Setonix system. 
 
 ## Split MSA run
 
@@ -162,6 +165,9 @@ We can split AlphaFold2 into a part that requires the **CPU** and a part that re
         -r 53a1008
     ~~~
 
+> ## Note
+> Make sure you have loaded the required modules and set the neccessary environment variables from the earlier episodes in this terminal.
+{: .discussion}
 
 ### Job Accounting
 
@@ -215,3 +221,9 @@ We can split AlphaFold2 into a part that requires the **CPU** and a part that re
 > ~~~
 >
 {: .solution}
+
+By splitting the MSA step to a CPU node, we can run AlphaFold2 for this target using ~13 SUs (compared with 48 SUs for the original run) on the Setonix system. 
+
+> ## Note
+> To minimise idle GPU time, it is important to ensure CPU-bound work is sent to a CPU node. This can lead to big savings in SU allocation!
+{: .prereq}

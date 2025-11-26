@@ -90,68 +90,62 @@ Let's see if our uncharacterised protein is predicted to form a high confidence 
 
 ## Construct samplesheet
 
-Navigate to the new working directory for this exercise
+1. Navigate to the new working directory for this exercise
 
-```bash
-cd $MYSCRATCH/2025-ABACBS-workshop/exercises/exercise3/
-```
+    ```bash
+    cd $MYSCRATCH/2025-ABACBS-workshop/exercises/exercise3/
+    ```
 
-Check that the FASTA files for the two target complexes are available in the `fasta/` directory.
+2. Check that the FASTA files for the two target complexes are available in the `fasta/` directory.
 
-```bash
-cat fasta/SctD-complex.fasta
-```
+    ```bash
+    cat fasta/SctD-complex.fasta
+    ```
 
-Output:
-```
-> PNK_0205
-MDKRGWMMLRVFINCYNPKAGEALLKFLPQEEVQAVLSQDIRSTDLTPILYQPQKLLERMHYSWIEPLLGGFPEKLHPLVMAALTQEQISGLNPVIAPSTLSNPVKTFIINQLYTLLKADEHLPYDYLPETDLSPLGTWSKARLTELIDFLGLHDLASEMRHIVDKNQLKNIYTSLSSKQFYYLKVCLHQKEILSVPKLGIDPSKRDSTKLKRIVHRRGLLRLGKALCGQHPDFVWYLAHTLDTGRGKLILNAYQPESVPQVTSFLKGQVLNLMNFLKSE
-> SctD
-IAETGRWLLKVIGGPNNGAEFYMQAGHSYILGTDPHSCDIVFQDTSVSRQHAKIIVSPEDSLAIEDLKSRNGVLVSGAPVEGKQALIPSMIVTIGTTSFVVYDREGEMQTIISP
-```
+    Output:
+    ```
+    > PNK_0205
+    MDKRGWMMLRVFINCYNPKAGEALLKFLPQEEVQAVLSQDIRSTDLTPILYQPQKLLERMHYSWIEPLLGGFPEKLHPLVMAALTQEQISGLNPVIAPSTLSNPVKTFIINQLYTLLKADEHLPYDYLPETDLSPLGTWSKARLTELIDFLGLHDLASEMRHIVDKNQLKNIYTSLSSKQFYYLKVCLHQKEILSVPKLGIDPSKRDSTKLKRIVHRRGLLRLGKALCGQHPDFVWYLAHTLDTGRGKLILNAYQPESVPQVTSFLKGQVLNLMNFLKSE
+    > SctD
+    IAETGRWLLKVIGGPNNGAEFYMQAGHSYILGTDPHSCDIVFQDTSVSRQHAKIIVSPEDSLAIEDLKSRNGVLVSGAPVEGKQALIPSMIVTIGTTSFVVYDREGEMQTIISP
+    ```
 
-```bash
-cat fasta/SctQ-complex.fasta
-```
+    ```bash
+    cat fasta/SctQ-complex.fasta
+    ```
 
-Output:
-```
-> PNK_0205
-MDKRGWMMLRVFINCYNPKAGEALLKFLPQEEVQAVLSQDIRSTDLTPILYQPQKLLERMHYSWIEPLLGGFPEKLHPLVMAALTQEQISGLNPVIAPSTLSNPVKTFIINQLYTLLKADEHLPYDYLPETDLSPLGTWSKARLTELIDFLGLHDLASEMRHIVDKNQLKNIYTSLSSKQFYYLKVCLHQKEILSVPKLGIDPSKRDSTKLKRIVHRRGLLRLGKALCGQHPDFVWYLAHTLDTGRGKLILNAYQPESVPQVTSFLKGQVLNLMNFLKSE
-> SctQ
-WADLSSRLARSFDREGFSIQPKDIMWRTTDQLYDGLGDSPFPLIFAVPILKGDVCWVMPEQEMVLLETWLLTKESHPISFQDRALSESFYRFFALEVLYHLSQTSFDKSIAPILTNKTVLPQEDALCLDISLSMHDQTLWGRLIISPDLRHSWVEHYASHGPSPL
-```
+    Output:
+    ```
+    > PNK_0205
+    MDKRGWMMLRVFINCYNPKAGEALLKFLPQEEVQAVLSQDIRSTDLTPILYQPQKLLERMHYSWIEPLLGGFPEKLHPLVMAALTQEQISGLNPVIAPSTLSNPVKTFIINQLYTLLKADEHLPYDYLPETDLSPLGTWSKARLTELIDFLGLHDLASEMRHIVDKNQLKNIYTSLSSKQFYYLKVCLHQKEILSVPKLGIDPSKRDSTKLKRIVHRRGLLRLGKALCGQHPDFVWYLAHTLDTGRGKLILNAYQPESVPQVTSFLKGQVLNLMNFLKSE
+    > SctQ
+    WADLSSRLARSFDREGFSIQPKDIMWRTTDQLYDGLGDSPFPLIFAVPILKGDVCWVMPEQEMVLLETWLLTKESHPISFQDRALSESFYRFFALEVLYHLSQTSFDKSIAPILTNKTVLPQEDALCLDISLSMHDQTLWGRLIISPDLRHSWVEHYASHGPSPL
+    ```
 
-Confirm that the samplesheet in the working directory points to the FASTA files containing the proteins we want to predict.
+3. Confirm that the samplesheet in the working directory points to the FASTA files containing the proteins we want to predict.
 
-```bash
-cat samplesheet.csv
-```
+    ```bash
+    cat samplesheet.csv
+    ```
 
-Output:
-``` csv
-id,fasta
-pair1,fasta/SctD-complex.fasta
-pair2,fasta/SctQ-complex.fasta
-```
+    Output:
+    ``` csv
+    id,fasta
+    pair1,fasta/SctD-complex.fasta
+    pair2,fasta/SctQ-complex.fasta
+    ```
 
 > ## Note
 > 
-> Normally, AlphaFold2 generates predictions using 5 copies of the model which all output different predictions. 
-> 
-> In multimer mode, each of these 5 models is run with 5 independent replicates (5 x 5 = 25 total).
-> 
-> All of these outputs are ranked by model confidence.
-> 
-> Today, we are using a custom fork (`alphafold2_pred-single.sif`) of AlphaFold2 which enables running only 1 of the 5 models.
-> 
-> We also provide an additional argument to run only a single replicate of this model (`-num_multimer_predictions_per_model=1`).
+> - Normally, AlphaFold2 generates predictions using 5 copies of the model which all output different predictions. 
+> - In multimer mode, each of these 5 models is run with 5 independent replicates (5 x 5 = 25 total) and outputs are ranked by model confidence.
+> - Today, we are using a custom fork (`alphafold2_pred-single.sif`) of AlphaFold2 which enables running only 1 of the 5 models.
+> - We also provide an additional argument to run only a single replicate of this model (`-num_multimer_predictions_per_model=1`).
 >
 > ~~~
 > grep -A4 RUN_ALPHAFOLD2_PRED abacbs_profile-multimer.config
 > ~~~
 > {: .source}
-> <br>
 > Output:
 > ~~~
 > withName: 'RUN_ALPHAFOLD2_PRED' {
@@ -160,89 +154,86 @@ pair2,fasta/SctQ-complex.fasta
 >     time = { 12.h }
 >}
 > ~~~
-> <br>
-> These optimizations can reduce the GPU requirements by **up to 25x** for a small tradeoff in prediction quality.
-> 
-> This could be important if we wish to scale to 1000s of predictions.
+> - These optimizations can reduce the GPU requirements by **up to 25x** for a small tradeoff in prediction quality.
+> - This could be important if we wish to scale to 1000s of predictions.
 >
 {: .prereq}
 
 
 ## Predict multimers
 
-~~~ bash
-nextflow run nf-core/proteinfold \
-    --input samplesheet.csv \
-    --outdir output \
-    --db /scratch/references/abacbs2025/databases/ \
-    --mode alphafold2 \
-    --alphafold2_model_preset multimer \
-    --use_gpu \
-    -c abacbs_profile-multimer.config \
-    --slurm_account $PAWSEY_PROJECT \
-    -r 53a1008
-~~~
-{: .source}
+1. Execute the workflow using the script below:
+    ~~~ bash
+    nextflow run nf-core/proteinfold \
+        --input samplesheet.csv \
+        --outdir output \
+        --db /scratch/references/abacbs2025/databases/ \
+        --mode alphafold2 \
+        --alphafold2_model_preset multimer \
+        --use_gpu \
+        -c abacbs_profile-multimer.config \
+        --slurm_account $PAWSEY_PROJECT \
+        -r 53a1008
+    ~~~
+    {: .source}
 
-Nextflow can automatically distribute work across the available compute resources.
+2. In our second terminal, check the status of the queue.
 
-In our second terminal, check the status of the queue.
+    ```bash
+    squeue --me
+    ```
 
-```bash
-squeue --me
-```
+    ```
+    JOBID        USER ACCOUNT                   NAME EXEC_HOST ST     REASON START_TIME       END_TIME  TIME_LEFT NODES   PRIORITY       QOS
+    34806314  tlitfin pawsey1017      nf-NFCORE_PROT nid002040  R       None 09:16:39         21:16:39   11:59:37     1      75342    normal
+    34806313  tlitfin pawsey1017      nf-NFCORE_PROT nid002040  R       None 09:16:37         21:16:37   11:59:35     1      75342    normal
+    ```
 
-```
-JOBID        USER ACCOUNT                   NAME EXEC_HOST ST     REASON START_TIME       END_TIME  TIME_LEFT NODES   PRIORITY       QOS
-34806314  tlitfin pawsey1017      nf-NFCORE_PROT nid002040  R       None 09:16:39         21:16:39   11:59:37     1      75342    normal
-34806313  tlitfin pawsey1017      nf-NFCORE_PROT nid002040  R       None 09:16:37         21:16:37   11:59:35     1      75342    normal
-```
+    We can see that multiple jobs have been initiated and are able to run in parallel. Nextflow can automatically distribute work across the available compute resources.
 
-We can see that multiple jobs have been initiated and are able to run in parallel.
+3. In our original terminal, wait for the MSA jobs to finish as indicated by the tick below.
 
-In our original terminal, wait for the MSA jobs to finish as indicated by the tick below.
+    ```
+    [de/35e5fe] NFC…ALPHAFOLD2:RUN_ALPHAFOLD2_MSA (pair2) | 2 of 2 ✔
+    [fc/fb9ce4] NFC…LPHAFOLD2:RUN_ALPHAFOLD2_PRED (pair2) | 0 of 2
+    [-        ] NFC…NFOLD:POST_PROCESSING:GENERATE_REPORT -
+    [-        ] NFC…E_PROTEINFOLD:POST_PROCESSING:MULTIQC -
+    ```
 
-```
-[de/35e5fe] NFC…ALPHAFOLD2:RUN_ALPHAFOLD2_MSA (pair2) | 2 of 2 ✔
-[fc/fb9ce4] NFC…LPHAFOLD2:RUN_ALPHAFOLD2_PRED (pair2) | 0 of 2
-[-        ] NFC…NFOLD:POST_PROCESSING:GENERATE_REPORT -
-[-        ] NFC…E_PROTEINFOLD:POST_PROCESSING:MULTIQC -
-```
+4. Before the pipeline is completed, cancel the execution by pressing `Ctrl` + `c`.
 
-Before the pipeline is completed, cancel the execution by pressing `Ctrl` + `c`.
+    > ## Interruptions
+    > 
+    > During long-running workflows, jobs can crash or be interrupted which can lead to lost progress.
+    > 
+    > Nextflow has the ability to resume workflow executions without repeating completed work.
+    {: .prereq}
 
-> ## Interruptions
-> 
-> During long-running workflows, jobs can crash or be interrupted which can lead to lost progress.
-> 
-> Nextflow has the ability to resume workflow executions without repeating completed work.
-{: .prereq}
+5. Re-start our multimer predictions using the original command in combination with the `-resume` parameter.
 
-Re-start our multimer predictions using the original command in combination with the `-resume` parameter.
+    ~~~ bash
+    nextflow run nf-core/proteinfold \
+        --input samplesheet.csv \
+        --outdir output \
+        --db /scratch/references/abacbs2025/databases/ \
+        --mode alphafold2 \
+        --alphafold2_model_preset multimer \
+        --use_gpu \
+        -c abacbs_profile-multimer.config \
+        --slurm_account $PAWSEY_PROJECT \
+        -r 53a1008 \ 
+        -resume
+    ~~~
+    {: .source}
 
-~~~ bash
-nextflow run nf-core/proteinfold \
-    --input samplesheet.csv \
-    --outdir output \
-    --db /scratch/references/abacbs2025/databases/ \
-    --mode alphafold2 \
-    --alphafold2_model_preset multimer \
-    --use_gpu \
-    -c abacbs_profile-multimer.config \
-    --slurm_account $PAWSEY_PROJECT \
-    -r 53a1008 \ 
-    -resume
-~~~
-{: .source}
+    ```
+    [54/a90051] NFC…ALPHAFOLD2:RUN_ALPHAFOLD2_MSA (pair1) | 2 of 2, cached: 2 ✔
+    [fc/fb9ce4] NFC…LPHAFOLD2:RUN_ALPHAFOLD2_PRED (pair1) | 0 of 2 
+    [-        ] NFC…NFOLD:POST_PROCESSING:GENERATE_REPORT -
+    [-        ] NFC…E_PROTEINFOLD:POST_PROCESSING:MULTIQC -
+    ```
 
-```
-[54/a90051] NFC…ALPHAFOLD2:RUN_ALPHAFOLD2_MSA (pair1) | 2 of 2, cached: 2 ✔
-[fc/fb9ce4] NFC…LPHAFOLD2:RUN_ALPHAFOLD2_PRED (pair1) | 0 of 2 
-[-        ] NFC…NFOLD:POST_PROCESSING:GENERATE_REPORT -
-[-        ] NFC…E_PROTEINFOLD:POST_PROCESSING:MULTIQC -
-```
-
-We can see that Nextflow keeps track of completed tasks and continues from the latest checkpoint.
+    We can see that Nextflow keeps track of completed tasks and continues from the latest checkpoint.
 
 ## Execution timeline
 <p align="center">

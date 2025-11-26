@@ -214,19 +214,19 @@ If you execute a Nextflow workflow that requires a container that is not located
 > - Today we are using a modified version of AlphaFold2 (`alphafold2-single.sif`) that only runs a single model to reduce execution time.
 {: .discussion}
 
-Check the `abacbs_workshop.config` file to confirm that the workflow modules are configured to use non-standard images available on Setonix:
+1. Check the `abacbs_workshop.config` file to confirm that the workflow modules are configured to use non-standard images available on Setonix:
 
-```bash
-grep -w RUN_ALPHAFOLD2 abacbs_profile.config -A3
-```
+    ```bash
+    grep -w RUN_ALPHAFOLD2 abacbs_profile.config -A3
+    ```
 
-Output:
-~~~
-withName: 'RUN_ALPHAFOLD2' {
-    container = '/scratch/references/abacbs2025/containers/alphafold2-single.sif'
-    time = { 12.h }
-}
-~~~
+    Output:
+    ~~~
+    withName: 'RUN_ALPHAFOLD2' {
+        container = '/scratch/references/abacbs2025/containers/alphafold2-single.sif'
+        time = { 12.h }
+    }
+    ~~~
 
 ## Reference data
 
@@ -242,7 +242,6 @@ These homologs are identified from enormous reference sequence databases (>1TB).
 
 2. You should see that the required AlphaFold2 databases and model parameters are available here:
 
-    Output:
     ```
     databases/
         ├── mgnify
@@ -254,8 +253,8 @@ These homologs are identified from enormous reference sequence databases (>1TB).
         └── uniref90 
      ```
 
-> ## Note
-> - Today, we are using miniature versions of the databases to reduce execution time for the purpose of the workshop. 
-> - These databases will **NOT** generate high-quality predictions for other protein targets. 
-> - Full size databases are available at `/scratch/references/alphafold_feb2024/databases/`.
-{: .discussion}
+    > ## Note
+    > - Today, we are using miniature versions of the databases to reduce execution time for the purpose of the workshop. 
+    > - These databases will **NOT** generate high-quality predictions for other protein targets. 
+    > - Full size databases are available at `/scratch/references/alphafold_feb2024/databases/`.
+    {: .discussion}

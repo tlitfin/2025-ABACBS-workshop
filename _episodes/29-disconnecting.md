@@ -1,7 +1,7 @@
 ---
 title: "Disconnecting properly"
 teaching: 5
-exercises: 5
+exercises:
 questions:
 objectives:
 - Preventing any orphan processes from running on login nodes indefinitely
