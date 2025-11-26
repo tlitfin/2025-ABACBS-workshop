@@ -154,7 +154,7 @@ In this exercise, we will be using Singularity containers.
 1. Load the corresponding module on Setonix.
 
     ```bash
-    module load singularity/4.1.0-slurm
+    module load singularity/3.11.4-nompi
     ```
 
 2. Before executing the workflow, we will define a number of environment variables. These variables tell Nextflow and Singularity where to find and store container images so you don’t waste time and space downloading them repeatedly. 
